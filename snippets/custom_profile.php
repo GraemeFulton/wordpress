@@ -1,5 +1,10 @@
-    add_action('bp_init', array($this,'create_profile_field_group'));
- 
+<?php 
+Class Taxonomy_Profile_Fields{
+    
+    __construct(){
+            add_action('bp_init', array($this,'create_profile_field_group'));
+
+    }
     /** src for create_profile_field_group : http://www.amkd.com.au/wordpress/buddypress-adding-custom-profile-field-programatically/118 **/
      public function create_profile_field_group(){
              global $wpdb;
@@ -61,3 +66,5 @@
          }
      }
      }
+}
+?>
