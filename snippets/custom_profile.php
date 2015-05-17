@@ -3,6 +3,9 @@ Class Taxonomy_Profile_Fields{
     
     __construct(){
             add_action('bp_init', array($this,'create_profile_field_group'));
+                           
+             add_action('bp_after_profile_field_content', array($this, 'profession_list'));
+
 
     }
     /** src for create_profile_field_group : http://www.amkd.com.au/wordpress/buddypress-adding-custom-profile-field-programatically/118 **/
@@ -65,6 +68,47 @@ Class Taxonomy_Profile_Fields{
 
          }
      }
+     }
+     
+     /**
+      * print profession taxonomy hierarchy with checkboxes
+      * */
+      
+        public function profession_list(){
+
+                    $args = array(
+               'taxonomy'      => 'profession',
+               'parent'        => 0, // get top level categories
+               'orderby'       => 'name',
+               'order'         => 'ASC',
+               'hierarchical'  => 1,
+               'pad_counts'    => 0
+           );
+
+           $categories = get_categories( $args );
+
+           foreach ( $categories as $category ){
+
+               echo '<h3>'. $category->name . '</h3>';
+
+               $sub_args = array(
+                   'taxonomy'      => 'profession',
+                   'parent'        => $category->term_id, // get child categories
+                   'orderby'       => 'name',
+                   'order'         => 'ASC',
+                   'hierarchical'  => 1,
+                   'pad_counts'    => 0
+               );
+
+               $sub_categories = get_categories( $sub_args );
+
+               foreach ( $sub_categories as $sub_category ){
+
+                   echo '<label><input type="checkbox" id="type-'. $sub_category->name . '" rel="'. $sub_category->name . '">'. $sub_category->name . '</label>';
+
+               }
+
+           }
      }
 }
 ?>
